@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Positioning Research — xsingletary.com</title>
+<style>
+:root{
+  --bg:#f7f8fa; --surface:#ffffff; --surface-2:#eef1f5; --border:#d8dee7;
+  --text:#141a21; --muted:#5a6673; --accent:#0b7a5a; --accent-soft:#e2f4ee;
+  --warn:#a1341f; --warn-soft:#fdeeea; --info:#1c4e8a; --info-soft:#e8f0fb;
+  --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.1);
+  --radius:12px; --maxw:1080px;
+}
+html[data-theme="dark"]{
+  --bg:#0f1216; --surface:#161b21; --surface-2:#1d232b; --border:#2b333d;
+  --text:#e8edf3; --muted:#9aa7b5; --accent:#3fd8a8; --accent-soft:#12352b;
+  --warn:#ff8a72; --warn-soft:#3a1b16; --info:#7db2ff; --info-soft:#15233a;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 1px 3px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px 96px}
+header.top{
+  border-bottom:1px solid var(--border); background:var(--surface);
+  position:sticky; top:0; z-index:20; backdrop-filter:saturate(140%) blur(6px);
+}
+.top-inner{max-width:var(--maxw); margin:0 auto; padding:14px 24px; display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+.brand{font-weight:700; letter-spacing:-.01em; font-size:15px}
+.brand span{color:var(--accent)}
+.top-spacer{flex:1}
+.eyebrow{
+  display:inline-block; font-size:11.5px; letter-spacing:.09em; text-transform:uppercase;
+  font-weight:700; color:var(--accent); background:var(--accent-soft);
+  padding:5px 10px; border-radius:999px;
+}
+h1{font-size:clamp(28px,4.6vw,42px); line-height:1.15; letter-spacing:-.022em; margin:22px 0 10px; font-weight:800}
+h2{font-size:clamp(21px,2.7vw,27px); letter-spacing:-.017em; margin:56px 0 6px; font-weight:750; scroll-margin-top:80px}
+h3{font-size:18.5px; letter-spacing:-.01em; margin:32px 0 8px; font-weight:700}
+h4{font-size:15.5px; margin:20px 0 6px; font-weight:700; color:var(--text)}
+p{margin:10px 0}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+.lede{font-size:18.5px; color:var(--muted); max-width:74ch; margin:0 0 8px}
+.meta{display:flex; gap:18px; flex-wrap:wrap; color:var(--muted); font-size:13.5px; margin:18px 0 0}
+.meta b{color:var(--text); font-weight:650}
+section.sec{border-top:1px solid var(--border); margin-top:56px; padding-top:8px}
+.h2note{color:var(--muted); margin-top:2px; max-width:74ch}
+.card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow); margin:14px 0}
+.grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); margin:16px 0}
+.callout{border-left:4px solid var(--accent); background:var(--accent-soft); padding:14px 18px; border-radius:0 10px 10px 0; margin:18px 0}
+.callout.warn{border-left-color:var(--warn); background:var(--warn-soft)}
+.callout.info{border-left-color:var(--info); background:var(--info-soft)}
+.callout .k{font-weight:750; display:block; margin-bottom:4px}
+.callout p:last-child{margin-bottom:0}
+table{width:100%; border-collapse:collapse; margin:16px 0; font-size:14.5px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden}
+.table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
+th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top}
+th{background:var(--surface-2); font-size:12.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:700}
+tr:last-child td{border-bottom:none}
+code{font:13.5px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; background:var(--surface-2); padding:2px 6px; border-radius:6px; border:1px solid var(--border)}
+ul,ol{margin:10px 0; padding-left:22px}
+li{margin:6px 0}
+li::marker{color:var(--accent)}
+.pill{display:inline-block; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--muted); margin:0 4px 4px 0}
+.pill.t1{background:var(--accent-soft); color:var(--accent); border-color:transparent}
+.pill.t2{background:var(--info-soft); color:var(--info); border-color:transparent}
+.pill.t3{background:var(--warn-soft); color:var(--warn); border-color:transparent}
+.toc{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 22px; margin:26px 0; box-shadow:var(--shadow)}
+.toc h2{margin:0 0 10px; font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted)}
+.toc ol{margin:0; padding-left:20px; columns:2; column-gap:32px}
+@media(max-width:640px){.toc ol{columns:1}}
+.toc li{margin:4px 0; break-inside:avoid}
+.btn{
+  cursor:pointer; border:1px solid var(--border); background:var(--surface-2); color:var(--text);
+  border-radius:9px; padding:7px 12px; font-size:13.5px; font-weight:650;
+}
+.btn:hover{border-color:var(--accent); color:var(--accent)}
+.btn:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
+.quote{border-left:3px solid var(--border); padding:2px 0 2px 14px; color:var(--muted); font-style:italic; margin:10px 0}
+.stat{display:flex; gap:20px; flex-wrap:wrap; margin:18px 0}
+.stat div{flex:1; min-width:150px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow)}
+.stat b{display:block; font-size:23px; letter-spacing:-.02em; color:var(--accent)}
+.stat small{color:var(--muted); font-size:12.5px; line-height:1.4; display:block; margin-top:3px}
+footer{margin-top:72px; padding-top:22px; border-top:1px solid var(--border); color:var(--muted); font-size:13.5px}
+.rank{display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; background:var(--accent); color:#fff; font-size:12.5px; font-weight:800; margin-right:8px; flex:0 0 auto}
+html[data-theme="dark"] .rank{color:#08130f}
+.spoke{display:flex; gap:0; align-items:flex-start}
+.spoke .rank{margin-top:3px}
+hr{border:none; border-top:1px solid var(--border); margin:32px 0}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">Xavier Singletary <span>·</span> Positioning Research</div>
+    <div class="top-spacer"></div>
+    <button class="btn" id="themeBtn" aria-pressed="false" aria-label="Toggle dark mode">Dark mode</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <span class="eyebrow">Competitive + Search Positioning Report</span>
+  <h1>Where xsingletary.com actually stands — and the pages that win</h1>
+  <p class="lede">A full competitive teardown of the fractional GTM-engineering market, the search priority order for xsingletary.com, and a positioning brief for every page worth building.</p>
+  <div class="meta">
+    <div><b>Prepared for</b> Xavier Singletary</div>
+    <div><b>Site</b> xsingletary.com</div>
+    <div><b>Date</b> 2026-10-13</div>
+    <div><b>Primary goal</b> Organic search leads</div>
+    <div><b>Sources</b> 20+ live competitor sites, 14 SERP queries</div>
+  </div>
+
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#summary">Executive summary</a></li>
+      <li><a href="#landscape">The competitive landscape</a></li>
+      <li><a href="#price">Price landscape — where you sit</a></li>
+      <li><a href="#commodity">The five commodity claims</a></li>
+      <li><a href="#moat">The proof gap (your moat)</a></li>
+      <li><a href="#openings">Their gaps = your openings</a></li>
+      <li><a href="#threats">Threats, plainly</a></li>
+      <li><a href="#serp">Search priority order</a></li>
+      <li><a href="#map">Competitor-positioning map</a></li>
+      <li><a href="#briefs">Per-spoke positioning briefs</a></li>
+      <li><a href="#sequence">30 / 60 / 90 sequencing</a></li>
+      <li><a href="#sources">Sources</a></li>
+    </ol>
+  </div>
+
+  <!-- ============ 1 ============ -->
+  <section class="sec" id="summary">
+    <h2>1 · Executive summary</h2>
+    <p class="h2note">If you read one thing, read this.</p>
+
+    <div class="callout">
+      <span class="k">The single finding</span>
+      <p>Your homepage wedge — <em>“the connections between them are”</em> and <em>“Not Another Tool”</em> — is now the industry’s default pitch. Four of the fourteen competitors I pulled say a version of it, and one (GTME) says it almost verbatim. The wedge isn’t wrong; it’s just no longer <strong>distinctive</strong>.</p>
+    </div>
+
+    <p>What <em>is</em> distinctive is something nobody in the field has: <strong>production receipts.</strong> Every competitor sells a claim. You have named systems, published architectures, and numbers that can’t be copied — 318 calls classified, 90.8% of buyer pains unprobed, 11,000 accounts enriched at 93.9%.</p>
+
+    <p>That reframes the work. You don’t need a new identity, and you don’t need to build pages about “AI engineer” or “cold outbound email” — those are synonyms and mechanisms, not audiences, and chasing them plants you in the generic-agency crowd you’re positioned against.</p>
+
+    <p>What you need is what you already half-proposed: <strong>more indexable pages, split by problem instead of by title.</strong> The good news from the search pass is that this lane is genuinely uncontested. Every competitor page is a <em>services grid</em> — Outbound / RevOps / Data / AI. Not one of them has a page for account scoring, call intelligence, or intent-data replacement. Nobody to fight.</p>
+
+    <div class="stat">
+      <div><b>14</b><small>competitor sites pulled and read in full</small></div>
+      <div><b>$1K–$7K</b><small>monthly price band of the entire fractional field</small></div>
+      <div><b>0</b><small>competitors with a problem-level landing page</small></div>
+      <div><b>5</b><small>commodity claims you currently share with the field</small></div>
+    </div>
+
+    <h3>The three moves</h3>
+    <ol>
+      <li><strong>Keep the wedge, change the proof language.</strong> Replace “I connect your tools” with the thing only you can say: <em>the systems run on your stack, unattended — here’s the architecture.</em></li>
+      <li><strong>Build three pages first, in this order:</strong> <code>/gtm-engineer-vs-revops</code> (weakest SERP, closest to money), <code>/gtm-engineering-cost</code> (buyer intent, beatable), <code>/what-is-gtm-engineering</code> (top-of-funnel pillar).</li>
+      <li><strong>Split the FAQ into spokes.</strong> You’ve written ~15 rankable assets and put them on one URL. That page can rank for one thing. Fix it by promoting sections to standalone pages and letting the FAQ become the hub.</li>
+    </ol>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section class="sec" id="landscape">
+    <h2>2 · The competitive landscape</h2>
+    <p class="h2note">Fourteen sites, three structural groups. Your true peer set is the solo fractional engineers.</p>
+
+    <h3>A · Solo fractional engineers <span class="pill t1">your real peers</span></h3>
+    <div class="grid">
+      <div class="card">
+        <h4>Vas Zelinskiy <span class="pill">vaszelinskiy.com</span></h4>
+        <p>“Good strategy. Great systems. Real momentum.” / “I connect the dots.” 8 years. CRM architecture, outbound systems, automation. 4–12 week timeline.</p>
+        <p><strong>Pricing:</strong> $1,000 / $2,500 / $5,000 per month.<br>
+        <strong>Proof:</strong> none published.</p>
+      </div>
+      <div class="card">
+        <h4>Trevor Fox <span class="pill">trevorfox.com</span></h4>
+        <p>“I’m your GTM Expert.” GTM strategist + systems architect. Strategy-heavy — modelling, experimentation loops, cross-team orchestration. Light on described builds.</p>
+        <p><strong>Pricing:</strong> $250/hr, $1,600/day, or retainer.<br>
+        <strong>Proof:</strong> one testimonial.</p>
+      </div>
+      <div class="card">
+        <h4>Dante Emilio Grassi <span class="pill">emilioconsulting.com</span></h4>
+        <p>“Your product is ready. Your go-to-market isn’t.” Europe/Nordics. “One engineer, not a department.” Diagnose → Build → Run.</p>
+        <p><strong>Funnel:</strong> free GTM Audit → €1,900 Blueprint → Build &amp; Run.<br>
+        <strong>Proof:</strong> 20+ clients, €35M+ pipeline, 14 days to live.</p>
+      </div>
+      <div class="card">
+        <h4>Uriel Eldan — The GTM Lab <span class="pill">thegtmlab.ai</span></h4>
+        <p>Fixed-price engagement, up to 6 weeks, clean handover. Seed–Series A. Explicitly attacks the category: <em>“GTM engineers build what you tell them to.”</em></p>
+        <p><strong>Pricing:</strong> fixed, scoped, not published.</p>
+      </div>
+      <div class="card">
+        <h4>Golden Ratio GTM <span class="pill">goldenratiogtm.com</span></h4>
+        <p>“Signal-to-Pipeline Build,” then optional “Managed GTM Engineering.” 15 years performance marketing. Mentions MCP and AI agents acting on your data.</p>
+        <p><strong>Pricing:</strong> fixed build fee + optional managed retainer.</p>
+      </div>
+      <div class="card">
+        <h4>Others in the set</h4>
+        <p><strong>Tom Melbourne / Founding GTM</strong> — Seed–Series B, ex-VP Sales turned builder.<br>
+        <strong>Ted (tedgtmguy.com)</strong> — fractional, 10–20 hrs/wk, 3-month minimum.<br>
+        <strong>Yalc (yalc.ai)</strong> — fractional GTM AI engineer <em>plus a dedicated copywriter</em>; 2–3 weeks to first system.</p>
+      </div>
+    </div>
+
+    <h3>B · Productized / subscription <span class="pill t3">your price-anchor threat</span></h3>
+    <div class="card">
+      <h4>Peter Foy — Growth Engineer <span class="pill">growthengineer.ai</span></h4>
+      <p>“Forward deployed GTM engineers.” One flat monthly fee, one request at a time, unlimited queue, pause or cancel anytime, bring-your-own API keys. AI agents, outbound infrastructure, content/SEO.</p>
+      <p><strong>Pricing:</strong> <strong>$2,000/mo</strong> (Standard) and <strong>$4,000/mo</strong> (Pro).<br>
+      <strong>Proof:</strong> 75+ meetings and $250K+ pipeline in 30 days; 6 agents, 35 campaigns across 5 reps, 189 warm replies.</p>
+      <div class="callout warn">
+        <p>This is the most attractive offer in the entire set. A buyer who doesn’t understand the difference between a <em>system you own</em> and a <em>service you rent</em> picks this on price alone.</p>
+      </div>
+    </div>
+
+    <h3>C · Agencies and teams</h3>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Company</th><th>Positioning</th><th>Pricing</th><th>Notable</th></tr></thead>
+      <tbody>
+        <tr><td><strong>The GTM Engineering Company</strong><br><small>gtm-engineering.io</small></td><td>“Clean CRM data and scalable outbound engines.” Fractional RevOps + Clay automation.</td><td>$4K / $6K / custom per month</td><td>Jorge Macías, YC S18. Claims 100+ systems. Case metrics: 12% reply lift, 30% CAC cut, 95% cleaner data.</td></tr>
+        <tr><td><strong>GTME</strong><br><small>gtmeagency.com</small></td><td>“We engineer your revenue machine.” 14 services across the full revenue lifecycle.</td><td>Not published — “proposal within 48 hours”</td><td>Certified Clay Solutions Partner. Claims 500+ workflows, 3.8× pipeline. Testimonials read as fabricated.</td></tr>
+        <tr><td><strong>Lead Line Partners</strong><br><small>leadlinepartners.co</small></td><td>“Codifying with GTM Engineering.” Sells the sales DNA angle: “built by closers.”</td><td>Not published</td><td><strong>Smart front door:</strong> give your company + work email, receive a free researched document. No call required.</td></tr>
+        <tr><td><strong>Alpn Digital</strong><br><small>alpndigital.com</small></td><td>Fractional GTM team — plug in one function, or all of them.</td><td>Monthly, fixed days</td><td>Spot Solutions Partner. Sells multi-function coordination.</td></tr>
+        <tr><td><strong>GetFresh Ventures</strong><br><small>getfreshventures.com</small></td><td>Fractional GTM <em>leadership</em> — senior operator + engineered systems, 90-day sprints.</td><td>Fee-based 90-day sprint</td><td>Aims higher: $1M–$250M companies, vs. the fully-loaded CRO at $350K–$500K.</td></tr>
+        <tr><td><strong>Toptal</strong><br><small>toptal.com</small></td><td>Marketplace — “Hire GTM engineers.”</td><td>Hourly / part-time / full-time</td><td>Commoditizes the “hire one” query. You will not outrank this.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>D · The content competitors (for the vs-RevOps fight)</h3>
+    <p>These aren’t selling services on that SERP — they’re publishing, and they’re your real opposition there:</p>
+    <ul>
+      <li><strong>Socio360</strong> (Khizer Ahmed Sheriff) — <em>“RevOps owns what is true. GTM engineering owns what happens because of it.”</em> Well-structured, opinionated, with an ownership map and conflict-resolution section. Genuinely good.</li>
+      <li><strong>RevPartners</strong> (Adam Statti) — long-form guide covering Clay, hiring triggers, the $5M–$10M ARR emergence point. Cites 205% YoY role growth and 48% RevOps adoption.</li>
+      <li><strong>Recruiters</strong> — RevSearch, CegTec, Cheetah — all approach it as a hiring question, not a build question. Weakest angle of the three.</li>
+    </ul>
+  </section>
+
+  <!-- ============ 3 ============ -->
+  <section class="sec" id="price">
+    <h2>3 · Price landscape — where you sit</h2>
+    <p class="h2note">You are not competing on price, and you shouldn’t try.</p>
+
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Model</th><th>Who</th><th>Price</th></tr></thead>
+      <tbody>
+        <tr><td>Subscription, productized</td><td>Growth Engineer</td><td>$2K–$4K / month</td></tr>
+        <tr><td>Monthly retainer, solo</td><td>Vas Zelinskiy</td><td>$1K–$5K / month</td></tr>
+        <tr><td>Monthly retainer, agency</td><td>gtm-engineering.io</td><td>$4K–$7K / month</td></tr>
+        <tr><td>Hourly / day rate</td><td>Trevor Fox</td><td>$250/hr · $1,600/day</td></tr>
+        <tr><td>Fixed build + optional managed</td><td>Golden Ratio GTM, The GTM Lab</td><td>Scoped, not published</td></tr>
+        <tr><td>Free audit → paid blueprint</td><td>Emilio Consulting</td><td>Free → €1,900 → scoped</td></tr>
+        <tr><td><strong>Fixed-scope build</strong></td><td><strong>You — xsingletary.com</strong></td><td><strong>$25K–$85K, 30–90 days</strong></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="callout info">
+      <span class="k">Read this correctly</span>
+      <p>You sit <strong>5–10× above the field’s monthly rate</strong> — but you aren’t selling a seat, you’re selling a build that the client keeps. That’s a legitimate and better model. The consequence is simple: <strong>your copy can never win on price, so it must win on scope, ownership, and proof.</strong> It mostly already does — but it has to be <em>loud</em> about it, because Growth Engineer has trained the market to expect $2K/month with no commitment.</p>
+    </div>
+  </section>
+
+  <!-- ============ 4 ============ -->
+  <section class="sec" id="commodity">
+    <h2>4 · The five commodity claims</h2>
+    <p class="h2note">Everything you currently lead with is said by somebody else. Here’s the evidence.</p>
+
+    <div class="card">
+      <h4><span class="rank">1</span>“I connect your tools.”</h4>
+      <p class="quote">Vas: “I connect the dots.” · Trevor: “duct-taping SaaS tools together” · GTME: “disconnected tools” · Golden Ratio: “connect the moving parts” · gtm-engineering.io: “end-to-end.”</p>
+      <p><strong>Your homepage says:</strong> “The tools aren’t the problem. The connections between them are.”</p>
+      <p><strong>Verdict:</strong> <span class="pill t3">contested</span> This is the category cliché. It’s true, but it no longer separates you — it makes you look like the field.</p>
+    </div>
+
+    <div class="card">
+      <h4><span class="rank">2</span>“You keep everything / clean handover / no dependency.”</h4>
+      <p class="quote">Emilio: “systems built to run without me,” “then train your team to run it without me” · The GTM Lab: “You own everything at the end” · Golden Ratio: “hand you systems you own” · Growth Engineer: “Everything we’ve built stays yours” · gtm-engineering.io: “builds under your logins… no vendor lock-in.”</p>
+      <p><strong>Verdict:</strong> <span class="pill t3">table stakes</span> Ownership is now the expected baseline. Say it once, briefly, and move on.</p>
+    </div>
+
+    <div class="card">
+      <h4><span class="rank">3</span>“Not another tool / not another hire / not an agency.”</h4>
+      <p class="quote">GTME, homepage: <em>“Not another SaaS tool. Not another headcount. Not another agency that just runs campaigns.”</em></p>
+      <p><strong>Your homepage says:</strong> “Not Another Tool.”</p>
+      <p><strong>Verdict:</strong> <span class="pill t3">contested, nearly verbatim</span> This is the most urgent one. Your brand line is someone else’s homepage. Keep the phrase if it’s brand equity — but the <em>page copy</em> underneath it must stop resting on it.</p>
+    </div>
+
+    <div class="card">
+      <h4><span class="rank">4</span>“Signal-based prospecting.”</h4>
+      <p class="quote">Vas: “Signals · Research” · Lead Line: “Catch the moment a buyer shows they’re ready” · Golden Ratio: “signal capture” · Emilio: “Signal-based prospecting.”</p>
+      <p><strong>Verdict:</strong> <span class="pill t3">commodity</span> Expected, not differentiating. Fine as a capability, useless as a headline.</p>
+    </div>
+
+    <div class="card">
+      <h4><span class="rank">5</span>“AI-native / agents in the workflow.”</h4>
+      <p class="quote">Yalc: “AI GTN engineer… agents they build for you” · Growth Engineer: “Claude Agents SDK, managed agents” · Golden Ratio: names MCP · Emilio: “agentic workflows (n8n, Zapier)” · GTME: “AI &amp; Custom Engineering.”</p>
+      <p><strong>Verdict:</strong> <span class="pill t3">fully commoditized</span> In 2026, “we use AI” is like “we use email.” It is no longer a claim; it’s a baseline assumption.</p>
+    </div>
+
+    <div class="callout">
+      <span class="k">What this means</span>
+      <p>Your gut was right that the copy feels “too narrow” — but the problem isn’t that you’re aimed at too small an audience. It’s that you’re aimed at the <em>same</em> audience with the <em>same words</em> as fourteen other people. Widening the target won’t fix that. Changing the proof language will.</p>
+    </div>
+  </section>
+
+  <!-- ============ 5 ============ -->
+  <section class="sec" id="moat">
+    <h2>5 · The proof gap — your moat</h2>
+    <p class="h2note">Everyone else has a claim. You have receipts. This is the one thing on the list nobody can buy.</p>
+
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Competitor</th><th>Published proof</th></tr></thead>
+      <tbody>
+        <tr><td>Vas Zelinskiy</td><td>None</td></tr>
+        <tr><td>Trevor Fox</td><td>One testimonial (“Trevor is really helpful at focusing and tuning growth innovation.”)</td></tr>
+        <tr><td>Tom Melbourne / Founding GTM</td><td>None published</td></tr>
+        <tr><td>Ted (tedgtmguy.com)</td><td>None published</td></tr>
+        <tr><td>The GTM Lab</td><td>None published (sells the fixed-price handover instead)</td></tr>
+        <tr><td>GTME</td><td>Generic testimonials — “Sarah Chen, VP Sales, Series B SaaS,” no company named</td></tr>
+        <tr><td>Emilio Consulting</td><td>20+ clients, €35M+ pipeline, 14 days to go live</td></tr>
+        <tr><td>Growth Engineer</td><td>75+ meetings, $250K+ pipeline in 30 days, 189 warm replies</td></tr>
+        <tr><td>gtm-engineering.io</td><td>12% reply lift · 30% CAC reduction · 95% cleaner CRM data</td></tr>
+        <tr><td><strong>You — xsingletary.com</strong></td><td><strong>Named systems with described architectures:</strong> 318 calls classified, 1,139 rep questions tagged, <strong>90.8% of buyer pains unprobed</strong>; 11,000 accounts enriched at <strong>93.9% verified</strong>; zero-result recovery of 23 of 64 dead accounts (246 contacts); ICP model from <strong>78 closed-won deals</strong>; 40+ live reports in a portal; 9 production systems.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="callout">
+      <span class="k">The distinction that matters</span>
+      <p>Look closely at the difference. Emilio has <em>big</em> numbers. You have <em>specific, explained</em> numbers — and a described architecture behind each one. A buyer who has been burned by vague consultants reads “90.8% of buyer pains went unprobed across 1,139 classified questions” and thinks: <em>this person actually ran the analysis.</em> That is a different quality of trust entirely.</p>
+    </div>
+
+    <h3>How to deploy it</h3>
+    <ul>
+      <li><strong>Lead every spoke with the architecture, not the claim.</strong> Show the pipeline shape (extract → connect → ship), then the number.</li>
+      <li><strong>Name the trade-offs you hit.</strong> Gong’s transcript endpoint is POST-only, Apollo has two deprecated search routes. Naming the friction is proof you were in the build — and no competitor does it.</li>
+      <li><strong>Use your strongest single stat as a recurring motif:</strong> <em>90.8% of buyer pains went unprobed by reps.</em> It’s a leadership-level finding that creates urgency on its own.</li>
+    </ul>
+  </section>
+
+  <!-- ============ 6 ============ -->
+  <section class="sec" id="openings">
+    <h2>6 · Their gaps = your openings</h2>
+    <p class="h2note">Five structural holes in the market. Each one maps to a page you can own.</p>
+
+    <div class="card">
+      <h4><span class="rank">1</span>Nobody sells by problem. Everyone sells “services.”</h4>
+      <p>Every competitor homepage is a services grid — Outbound / RevOps / Data / AI / Content. <strong>Not one has a page for account scoring, call intelligence, or intent-data replacement.</strong> Your problem-spoke plan has zero direct competition. This is the single biggest opening in the report.</p>
+    </div>
+
+    <div class="card">
+      <h4><span class="rank">2</span>Nobody goes vertical.</h4>
+      <p>All fourteen say “B2B SaaS.” You have production proof in logistics/3PL, manufacturing, and food &amp; beverage — and your own ICP autopsy found ~50% of wins came from logistics/3PL, not the vertical the team assumed. A vertical page (e.g. GTM engineering for logistics/3PL) would have <em>no</em> competition.</p>
+    </div>
+
+    <div class="card">
+      <h4><span class="rank">3</span>Most are vague about what actually gets built.</h4>
+      <p>Trevor Fox describes capabilities. Vas describes phases. GTME lists fourteen service names. You describe <em>architectures</em> — a two-axis Fit + Signal scoring engine with STRIKE / NURTURE / QUALIFY / KILL verdicts, a remediation loop, a response watcher. Buyers who have been burned trust diagrams over adjectives.</p>
+    </div>
+
+    <div class="card">
+      <h4><span class="rank">4</span>The field is Clay-heavy or strategy-heavy. You’re neither.</h4>
+      <p>gtm-engineering.io is Clay automation. Trevor Fox is strategy and modelling. You build systems that <em>run unattended on the client’s existing stack.</em> That is a genuinely different product — lead with it instead of with “connections.”</p>
+    </div>
+
+    <div class="card">
+      <h4><span class="rank">5</span>No solo operator with production receipts exists in the fractional set.</h4>
+      <p>The solos (Vas, Trevor, Ted) have no proof. The ones with proof (Emilio, Growth Engineer) are positioned as small teams. <strong>“One operator, nine shipped systems, verifiable numbers” is an empty slot.</strong> Take it.</p>
+    </div>
+  </section>
+
+  <!-- ============ 7 ============ -->
+  <section class="sec" id="threats">
+    <h2>7 · Threats, plainly</h2>
+    <ul>
+      <li><strong>“Not another tool” and “connect the tools” are taken.</strong> Your two strongest lines are the field’s default. Highest-priority language fix.</li>
+      <li><strong>Subscription pricing resets expectations.</strong> $2K–$4K/month, pause anytime, is a much easier yes than a $25K+ build. You need a page that explains why a build outlasts a subscription.</li>
+      <li><strong>Toptal commoditizes the hire query.</strong> “Hire a GTM engineer” belongs to marketplaces and competitor homepages. Don’t fight there; win the problem queries instead.</li>
+      <li><strong>Emilio’s funnel is a better entry.</strong> Free outside-in audit → €1,900 blueprint → build. Softer than a paid diagnostic, and it makes the first yes trivial.</li>
+      <li><strong>Clay owns the definitional query.</strong> <code>clay.com/guides/gtm-engineering</code> is the top result for “what does a GTM engineer do.” You can’t outrank Clay on brand — but their page ends in “buy Clay,” and yours ends in “you don’t need another tool.”</li>
+    </ul>
+
+    <div class="callout info">
+      <span class="k">The counter-move to all four</span>
+      <p>Every threat above is a <em>commodity</em> threat. None of them can copy your receipts. Compete where proof matters and price doesn’t: the problem queries, with architecture and numbers on the page.</p>
+    </div>
+  </section>
+
+  <!-- ============ 8 ============ -->
+  <section class="sec" id="serp">
+    <h2>8 · Search priority order</h2>
+    <p class="h2note">Winnability scored from SERP composition; value scored from buyer intent. Volume not measured — see method note.</p>
+
+    <div class="callout">
+      <span class="k">Method</span>
+      <p>No search-volume tool was available, so winnability is inferred from <em>who currently ranks</em> (big brand vs. thin startup blog vs. vendor product page) and value is inferred from <em>intent stage</em> (informational vs. commercial). This is directional, not a volume study. Validate with Ahrefs/Semrush or Keyword Planner before committing budget.</p>
+    </div>
+
+    <h3>Tier 1 — build first <span class="pill t1">money + weak SERP</span></h3>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Page</th><th>Who ranks today</th><th>Intent</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>/gtm-engineer-vs-revops</code></td>
+          <td>revpartners, revsearch, cegtec, becheetah, socio360 — all small consultancies and recruiters</td>
+          <td>Commercial-adjacent — evaluating how to hire</td>
+          <td><strong>Winnable now.</strong> No dominant player. Closest page to money on the list.</td>
+        </tr>
+        <tr>
+          <td><code>/gtm-engineering-cost</code></td>
+          <td>leadline, sloane-staffing, trexinet, gtmepulse, hausresearch — recruiters and agencies</td>
+          <td>Commercial — cost to hire</td>
+          <td><strong>Winnable.</strong> ⚠️ Target the <em>buyer</em> intent (in-house vs. consultant cost), never “salary” (job-seekers).</td>
+        </tr>
+        <tr>
+          <td><code>/what-is-gtm-engineering</code></td>
+          <td><strong>Clay</strong> (clay.com/guides) plus small niche blogs — multiplier, syncgtm, artemisgtm</td>
+          <td>Top-funnel, definitional</td>
+          <td><strong>Winnable with a better page.</strong> This is your topic pillar — what the spokes link up to.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Tier 2 — informational spokes that feed the money pages <span class="pill t2">volume + proof</span></h3>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Page</th><th>Who ranks today</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><code>/account-scoring</code></td><td>Thin AI-vendor blogs — autotouch, abmatic, astrofabric, puetto, oscom, futern</td><td><strong>High volume, soft competition.</strong> Your 78-closed-won story beats anything on page one.</td></tr>
+        <tr><td><code>/call-intelligence</code></td><td>Vendor product pages (vonvo, audiosa, weam, semarize) + a Gong-specific post from coffee.ai</td><td><strong>Win the niche, not the category:</strong> “at scale / bulk transcripts / Gong.” Your 90.8% story <em>is</em> that niche.</td></tr>
+        <tr><td><code>/intent-data-replacement</code></td><td>Small vendor blogs all writing “death of intent data” — revic, rodz, marketsizer, devcommx</td><td><strong>Winnable, and the intent is gold</strong> — people angry about a $30–80K contract.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Tier 3 — later, or don’t bother <span class="pill t3">avoid</span></h3>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Query</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><code>/buying-committee-mapping</code></td><td>Winnable but lower volume than Tier 2. Vendor mix (unifygtm, leadiq, apollo). Build after Tier 2 proves out.</td></tr>
+        <tr><td><code>/sdr-research-automation</code></td><td>❌ Vendor-dominated (pocus, salesmotion, evergrowth, outreach.ai). Google reads it as “buy a tool,” not “hire a builder.” Wrong intent.</td></tr>
+        <tr><td>“intent data alternative / pricing”</td><td>❌ Pure shopping query. Real vendors with real budgets (leadfuze, intenthub). Don’t.</td></tr>
+        <tr><td>“hire a GTM engineer”</td><td>❌ SERP is competitor <em>homepages</em>. Use it as competitive intel, not as a page.</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- ============ 9 ============ -->
+  <section class="sec" id="map">
+    <h2>9 · Competitor-positioning map</h2>
+    <p class="h2note">For each page: who you’re actually fighting, what they own, and the angle that wins.</p>
+
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Page</th><th>Real opponent</th><th>What they own</th><th>Your winning angle</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>/what-is-gtm-engineering</code></td>
+          <td>Clay’s guide + small niche blogs</td>
+          <td>The definition — and a funnel to “buy Clay”</td>
+          <td>Define the discipline by <em>output</em>, not tools: it’s the layer that connects systems of record to systems of action. End on “you don’t need another platform.”</td>
+        </tr>
+        <tr>
+          <td><code>/gtm-engineer-vs-revops</code></td>
+          <td>Socio360, RevPartners, recruiters</td>
+          <td>“Hire RevOps first, always” — the incumbent narrative</td>
+          <td>Take the contrarian, evidence-backed line: RevOps first is right <em>unless your data is already clean and what’s missing is building.</em> Use the ownership map, then the receipts.</td>
+        </tr>
+        <tr>
+          <td><code>/gtm-engineering-cost</code></td>
+          <td>Recruiters + agencies publishing salary guides</td>
+          <td>The cost comparison — but all from an employment angle</td>
+          <td>Reframe cost as <em>outcome per dollar</em>: a $90K RevOps hire with a 6-month ramp vs. a fixed-scope build you own. Include the “what you keep” list.</td>
+        </tr>
+        <tr>
+          <td><code>/account-scoring</code></td>
+          <td>Thin AI-vendor blogs</td>
+          <td>Generic “Fit + Intent + Engagement” theory</td>
+          <td>Build it from <strong>your closed-won data</strong> — 78 deals, the weighting maths, the verdict thresholds. Nobody ranks with real deal-derived weights.</td>
+        </tr>
+        <tr>
+          <td><code>/call-intelligence</code></td>
+          <td>Conversation-intelligence vendors</td>
+          <td>“Coaching” framing — per-call review</td>
+          <td>Invert it: individual review is coaching, bulk analysis is <em>intelligence.</em> Lead with 318 calls / 90.8% unprobed. Vendors can’t publish a finding like that.</td>
+        </tr>
+        <tr>
+          <td><code>/intent-data-replacement</code></td>
+          <td>Small vendors riding the “death of intent data” wave</td>
+          <td>The argument that intent data is broken</td>
+          <td>Agree, then go further: show the <em>actual replacement</em> — hiring signals, expansion news, earnings language — and what it costs to run (~$100/mo in tokens vs. a five-figure contract).</td>
+        </tr>
+        <tr>
+          <td><code>vertical/&lt;industry&gt;</code> <span class="pill t1">later</span></td>
+          <td>Nobody</td>
+          <td>—</td>
+          <td>Zero competition. You have real vertical proof (3PL/logistics, manufacturing, food &amp; bev) and an ICP finding that ~50% of wins were 3PL.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- ============ 10 ============ -->
+  <section class="sec" id="briefs">
+    <h2>10 · Per-spoke positioning briefs</h2>
+    <p class="h2note">One brief per page: who it’s for, the enemy narrative, the angle, the proof to feature, and where it links.</p>
+
+    <div class="card">
+      <h3 style="margin-top:0">/what-is-gtm-engineering — the pillar</h3>
+      <p><strong>Primary query:</strong> what is GTM engineering · what does a GTM engineer do<br>
+      <strong>Reader:</strong> A sales or marketing leader who has heard the term and can’t tell it apart from RevOps or “using Clay.”<br>
+      <strong>Enemy narrative:</strong> “GTM engineering = Clay + cold email.” (The LinkedIn course economy owns this.)<br>
+      <strong>Angle:</strong> Define it by output. GTM engineering is the layer that connects systems of record (CRM) to systems of action (signals, scoring, enrichment, outreach) — and ships to where reps actually work. Explicitly reject the tools-first definition, then show the six-part anatomy.<br>
+      <strong>Proof to feature:</strong> The nine production systems as a single map, with the portal of 40+ live reports as the “at the end” image.<br>
+      <strong>CTA:</strong> Run the diagnostic.<br>
+      <strong>Links to:</strong> every Tier-2 spoke + both money pages.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">/gtm-engineer-vs-revops — the closest-to-money page</h3>
+      <p><strong>Primary query:</strong> GTM engineer vs RevOps · should I hire RevOps or a GTM engineer<br>
+      <strong>Reader:</strong> A Series B leader deciding where the next hire or engagement budget goes.<br>
+      <strong>Enemy narrative:</strong> Socio360 and RevPartners own it — both conclude <em>“hire RevOps first, always.”</em> Recruiters frame it as a hiring question only.<br>
+      <strong>Angle:</strong> Steal the ownership-map format (it works — RevOps owns what is <em>true</em>; GTM engineering owns what <em>happens because of it</em>), then take the contrarian position: <em>“RevOps first” is right unless the data model is already sound and what’s missing is building.</em> That’s the case for the majority of Series B teams who have a clean CRM and no systems on top of it. Then show the build.<br>
+      <strong>Proof to feature:</strong> The 78-deal ICP autopsy — the data overriding tribal knowledge. This is the exact argument that you build from evidence, not org charts.<br>
+      <strong>CTA:</strong> Run the diagnostic — it tells you which one you actually need, and you keep the findings either way.<br>
+      <strong>Links to:</strong> pillar, <code>/gtm-engineering-cost</code>, <code>/account-scoring</code>.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">/gtm-engineering-cost — the second money page</h3>
+      <p><strong>Primary query:</strong> GTM engineer cost · in-house vs agency GTM engineering · GTM engineer consultant cost<br>
+      <strong>Reader:</strong> Someone with budget authority comparing options. ⚠️ <em>Not</em> job-seekers — that’s a different query (“GTM engineer salary”) and you must not blend them.<br>
+      <strong>Enemy narrative:</strong> Recruiters publish salary guides; agencies publish “fractional is cheaper than hiring.” Everyone frames cost as <em>rate</em>.<br>
+      <strong>Angle:</strong> Reframe from rate to <em>outcome per dollar, and what you keep</em>. Compare three real paths — full-time hire (salary + ramp + tools + risk of churn), subscription service (you rent, you stop paying, it stops), fixed-scope build (you own it, it runs unattended). Include the honest version of why you’re more expensive per month and cheaper per outcome.<br>
+      <strong>Proof to feature:</strong> “The system runs on your stack, not a platform you rent from me” + the recovered-rep-time maths (6 reps × 30 min/day).<br>
+      <strong>CTA:</strong> Run the diagnostic to scope your fix.<br>
+      <strong>Links to:</strong> pillar, <code>/gtm-engineer-vs-revops</code>.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">/account-scoring — highest-volume spoke</h3>
+      <p><strong>Primary query:</strong> how to score sales accounts · account scoring model · lead scoring from closed-won data<br>
+      <strong>Reader:</strong> A GTM or sales ops person building their first scoring model.<br>
+      <strong>Enemy narrative:</strong> Thin AI-vendor blogs publishing generic “Fit + Intent + Engagement” theory with no data behind it. One literally uses your “Fit + Signals” framing already.<br>
+      <strong>Angle:</strong> Show the actual build. Two axes (Fit + Signal), weights derived from closed-won deals, verdict thresholds (STRIKE / NURTURE / QUALIFY / KILL), and the separation-of-concerns that lets you swap data sources without touching the model. Include the weighting maths and the “Director of Ops is not a C-suite persona” bug.<br>
+      <strong>Proof to feature:</strong> 78 closed-won deals; the ~50% logistics/3PL surprise; the $100–250K sweet spot.<br>
+      <strong>CTA:</strong> Run the diagnostic.<br>
+      <strong>Links to:</strong> pillar, <code>/gtm-engineer-vs-revops</code>, <code>/intent-data-replacement</code>.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">/call-intelligence — your strongest proof</h3>
+      <p><strong>Primary query:</strong> how to analyze sales calls at scale · bulk call transcript analysis · Gong call analysis<br>
+      <strong>Reader:</strong> A sales leader who suspects their discovery is weak and wants evidence.<br>
+      <strong>Enemy narrative:</strong> Conversation-intelligence vendors sell <em>coaching</em> — one call at a time, human review.<br>
+      <strong>Angle:</strong> Invert the framing. <em>Individual call review is coaching; bulk analysis is intelligence.</em> Then show the method: batch-extract by date range, classify every rep question by type, classify every buyer response, cross-reference against closed-won/lost. Name the friction (Gong’s endpoint is POST-only; there’s no native bulk export) — that’s proof of hands-on work.<br>
+      <strong>Proof to feature:</strong> 318 calls, 1,139 rep questions classified, <strong>90.8% of buyer pains unprobed.</strong> Lead with that number.<br>
+      <strong>CTA:</strong> Run the diagnostic.<br>
+      <strong>Links to:</strong> pillar, <code>/account-scoring</code>.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">/intent-data-replacement — angry buyers, winnable SERP</h3>
+      <p><strong>Primary query:</strong> replace intent data · intent data alternative · in-house buying signals<br>
+      <strong>Reader:</strong> Someone paying $30–80K/year for intent data and seeing nothing actionable.<br>
+      <strong>Enemy narrative:</strong> A wave of small vendors arguing “intent data is broken” — then selling you their own intent data.<br>
+      <strong>Angle:</strong> Agree it’s broken, then go where they won’t: show the actual <em>replacement</em> as a build. Hiring posts 21+ days old, expansion announcements, earnings language about inventory/labour, leadership changes, funding rounds — each mapped to an ICP weight, scored the same 0–100, at ~$100/month in tokens instead of a five-figure contract.<br>
+      <strong>Proof to feature:</strong> The multi-agent research system that caught warehouse/inventory-specific signals a generic vendor would never surface.<br>
+      <strong>CTA:</strong> Run the diagnostic.<br>
+      <strong>Links to:</strong> pillar, <code>/account-scoring</code>.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">/hyphen-vertical — the uncontested page <span class="pill t1">later</span></h3>
+      <p><strong>Query:</strong> GTM engineering for logistics / 3PL (or manufacturing)<br>
+      <strong>Reader:</strong> A leader in a vertical you already have proof in.<br>
+      <strong>Competition:</strong> None. All fourteen competitors say only “B2B SaaS.”<br>
+      <strong>Angle:</strong> Vertical-specific proof only — the account model, the buying committee, the signals that matter in that industry. This is the page nobody can copy because nobody has the data.</p>
+    </div>
+  </section>
+
+  <!-- ============ 11 ============ -->
+  <section class="sec" id="sequence">
+    <h2>11 · 30 / 60 / 90 sequencing</h2>
+    <p class="h2note">Additive only. You just revamped the site — do not rewrite it again.</p>
+
+    <div class="card">
+      <h4>Days 0–30 — ship three pages, wire the links</h4>
+      <ol>
+        <li>Build <code>/gtm-engineer-vs-revops</code> — closest to money, weakest SERP.</li>
+        <li>Build <code>/what-is-gtm-engineering</code> — the pillar that everything links up to.</li>
+        <li>Build <code>/call-intelligence</code> — your strongest proof, narrow win.</li>
+        <li>Wire internal links: pillar → spokes; each spoke → pillar + 2 siblings, with descriptive anchors.</li>
+        <li>Convert the FAQ from a kitchen-sink page into a lean hub that links to the spokes.</li>
+        <li>Keep the single CTA spine (the diagnostic) on every page.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h4>Days 30–60 — measure, then add the money page</h4>
+      <ol>
+        <li>Watch Search Console: which pages pull impressions, which queries actually surface.</li>
+        <li>Fix whatever underperforms — usually title/intent mismatch, not content quality.</li>
+        <li>Build <code>/gtm-engineering-cost</code> — buyer-intent, beatable SERP.</li>
+        <li>Add structured data: <code>Service</code> on spokes, <code>FAQPage</code> where you answer questions, <code>Person</code> on the hub.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h4>Days 60–90 — expand where it’s working</h4>
+      <ol>
+        <li>Build <code>/account-scoring</code> and <code>/intent-data-replacement</code>.</li>
+        <li>Start the blog feeding spokes rather than standing alone.</li>
+        <li>Test the vertical page on whichever industry shows demand.</li>
+        <li>Sharpen the homepage copy to replace the commodity claims with proof language.</li>
+      </ol>
+    </div>
+
+    <div class="callout warn">
+      <span class="k">Two rules that matter more than speed</span>
+      <p><strong>One intent per page.</strong> The moment a page chases two queries it ranks for neither.<br>
+      <strong>The internal links are the mechanism, not the garnish.</strong> Orphan pages don’t rank. Hub → spoke and spoke → sibling is what makes this a cluster instead of a pile.</p>
+    </div>
+  </section>
+
+  <!-- ============ 12 ============ -->
+  <section class="sec" id="sources">
+    <h2>12 · Sources</h2>
+    <p class="h2note">All competitor pages pulled and read in full during this research; SERP composition from 14 queries.</p>
+
+    <h3>Competitor sites</h3>
+    <ul>
+      <li>vaszelinskiy.com — Vas Zelinskiy, Fractional GTM Engineer</li>
+      <li>trevorfox.com/fractional-gtm-engineering/ — Trevor Fox</li>
+      <li>emilioconsulting.com — Dante Emilio Grassi</li>
+      <li>thegtmlab.ai — Uriel Eldan, The GTM Lab</li>
+      <li>goldenratiogtm.com/fractional-gtm-engineer</li>
+      <li>growthengineer.ai — Peter Foy, Growth Engineer</li>
+      <li>foundinggtm.com — Tom Melbourne, Founding GTM</li>
+      <li>tedgtmguy.com</li>
+      <li>yalc.ai/special-offer/</li>
+      <li>gtm-engineering.io — The GTM Engineering Company (Jorge Macías)</li>
+      <li>gtmeagency.com — GTME</li>
+      <li>leadlinepartners.co — Lead Line Partners</li>
+      <li>alpndigital.com/fractional-gtm</li>
+      <li>getfreshventures.com/solutions/fractional-gtm</li>
+      <li>toptal.com/marketing/gtm-engineers</li>
+    </ul>
+
+    <h3>Content competitors</h3>
+    <ul>
+      <li>socio360.com/blog/gtm-engineer-vs-revops</li>
+      <li>blog.revpartners.io/en/revops-articles/gtm-engineering-vs-revops</li>
+      <li>clay.com/guides/gtm-engineering</li>
+    </ul>
+
+    <h3>Subject site</h3>
+    <ul>
+      <li>xsingletary.com — homepage, /faq, /blog/why-reps-guess-who-to-call, sitemap.xml, robots.txt</li>
+    </ul>
+
+    <div class="callout">
+      <span class="k">Caveats, stated honestly</span>
+      <p><strong>No search-volume data.</strong> Winnability is inferred from SERP composition, not measured. Validate before committing budget.<br>
+      <strong>Point-in-time.</strong> SERPs move. This reflects rankings as observed on 2026-10-13.<br>
+      <strong>Competitor pricing is self-published</strong> and may have changed since.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Positioning Research — xsingletary.com</strong> · Prepared 2026-10-13 · Goal: organic search leads</p>
+    <p>Companion to the competitive teardown and SERP pass delivered in-thread. No copy was drafted in this phase — the briefs are positioning directions, not page text.</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var btn = document.getElementById('themeBtn');
+  var saved = null;
+  try { saved = localStorage.getItem('report-theme'); } catch(e) {}
+  if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) saved = 'dark';
+  if (saved) { root.setAttribute('data-theme', saved); }
+  function sync(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    btn.textContent = dark ? 'Light mode' : 'Dark mode';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+  }
+  sync();
+  btn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('report-theme', next); } catch(e) {}
+    sync();
+  });
+})();
+</script>
+</body>
+</html>
