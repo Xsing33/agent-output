@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suggestions — xsingletary.com</title>
+<style>
+:root{
+  --bg:#f7f8fa; --surface:#ffffff; --surface-2:#eef1f5; --border:#d8dee7;
+  --text:#141a21; --muted:#5a6673; --accent:#0b7a5a; --accent-soft:#e2f4ee;
+  --warn:#a1341f; --warn-soft:#fdeeea; --info:#1c4e8a; --info-soft:#e8f0fb;
+  --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.1);
+  --radius:12px; --maxw:1080px;
+}
+html[data-theme="dark"]{
+  --bg:#0f1216; --surface:#161b21; --surface-2:#1d232b; --border:#2b333d;
+  --text:#e8edf3; --muted:#9aa7b5; --accent:#3fd8a8; --accent-soft:#12352b;
+  --warn:#ff8a72; --warn-soft:#3a1b16; --info:#7db2ff; --info-soft:#15233a;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 1px 3px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--bg); color:var(--text);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px 96px}
+header.top{border-bottom:1px solid var(--border); background:var(--surface);
+  position:sticky; top:0; z-index:20; backdrop-filter:saturate(140%) blur(6px);}
+.top-inner{max-width:var(--maxw); margin:0 auto; padding:14px 24px; display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+.brand{font-weight:700; letter-spacing:-.01em; font-size:15px}
+.brand span{color:var(--accent)}
+.top-spacer{flex:1}
+.eyebrow{display:inline-block; font-size:11.5px; letter-spacing:.09em; text-transform:uppercase;
+  font-weight:700; color:var(--accent); background:var(--accent-soft); padding:5px 10px; border-radius:999px;}
+h1{font-size:clamp(28px,4.6vw,42px); line-height:1.15; letter-spacing:-.022em; margin:22px 0 10px; font-weight:800}
+h2{font-size:clamp(21px,2.7vw,27px); letter-spacing:-.017em; margin:56px 0 6px; font-weight:750; scroll-margin-top:80px}
+h3{font-size:18.5px; letter-spacing:-.01em; margin:32px 0 8px; font-weight:700}
+h4{font-size:15.5px; margin:20px 0 6px; font-weight:700}
+p{margin:10px 0}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+.lede{font-size:18.5px; color:var(--muted); max-width:74ch; margin:0 0 8px}
+.meta{display:flex; gap:18px; flex-wrap:wrap; color:var(--muted); font-size:13.5px; margin:18px 0 0}
+.meta b{color:var(--text); font-weight:650}
+section.sec{border-top:1px solid var(--border); margin-top:56px; padding-top:8px}
+.h2note{color:var(--muted); margin-top:2px; max-width:74ch}
+.card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow); margin:14px 0}
+.callout{border-left:4px solid var(--accent); background:var(--accent-soft); padding:14px 18px; border-radius:0 10px 10px 0; margin:18px 0}
+.callout.warn{border-left-color:var(--warn); background:var(--warn-soft)}
+.callout.info{border-left-color:var(--info); background:var(--info-soft)}
+.callout .k{font-weight:750; display:block; margin-bottom:4px}
+.callout p:last-child{margin-bottom:0}
+table{width:100%; border-collapse:collapse; margin:16px 0; font-size:14.5px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden}
+.table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
+th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top}
+th{background:var(--surface-2); font-size:12.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:700}
+tr:last-child td{border-bottom:none}
+code{font:13.5px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; background:var(--surface-2); padding:2px 6px; border-radius:6px; border:1px solid var(--border)}
+ul,ol{margin:10px 0; padding-left:22px}
+li{margin:6px 0}
+li::marker{color:var(--accent)}
+.pill{display:inline-block; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--muted); margin:0 4px 4px 0}
+.pill.do{background:var(--accent-soft); color:var(--accent); border-color:transparent}
+.pill.dont{background:var(--warn-soft); color:var(--warn); border-color:transparent}
+.pill.hi{background:var(--info-soft); color:var(--info); border-color:transparent}
+.btn{cursor:pointer; border:1px solid var(--border); background:var(--surface-2); color:var(--text);
+  border-radius:9px; padding:7px 12px; font-size:13.5px; font-weight:650;}
+.btn:hover{border-color:var(--accent); color:var(--accent)}
+.btn:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
+.quote{border-left:3px solid var(--border); padding:2px 0 2px 14px; color:var(--muted); font-style:italic; margin:10px 0}
+.stat{display:flex; gap:20px; flex-wrap:wrap; margin:18px 0}
+.stat div{flex:1; min-width:150px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow)}
+.stat b{display:block; font-size:23px; letter-spacing:-.02em; color:var(--accent)}
+.stat small{color:var(--muted); font-size:12.5px; line-height:1.4; display:block; margin-top:3px}
+.rank{display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff; font-size:13px; font-weight:800; margin-right:9px; flex:0 0 auto}
+html[data-theme="dark"] .rank{color:#08130f}
+.rec{display:flex; gap:0; align-items:flex-start}
+.rec .rank{margin-top:3px}
+.rec-body{flex:1}
+.before,.after{border-radius:8px; padding:10px 13px; margin:8px 0; font-size:14.5px}
+.before{background:var(--warn-soft); border-left:3px solid var(--warn)}
+.after{background:var(--accent-soft); border-left:3px solid var(--accent)}
+.before b,.after b{display:block; font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px; opacity:.85}
+.checklist{list-style:none; padding-left:0}
+.checklist li{padding-left:30px; position:relative}
+.checklist li::before{content:""; position:absolute; left:0; top:5px; width:16px; height:16px;
+  border:2px solid var(--accent); border-radius:5px}
+footer{margin-top:72px; padding-top:22px; border-top:1px solid var(--border); color:var(--muted); font-size:13.5px}
+hr{border:none; border-top:1px solid var(--border); margin:32px 0}
+.toc{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 22px; margin:26px 0; box-shadow:var(--shadow)}
+.toc h2{margin:0 0 10px; font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted)}
+.toc ol{margin:0; padding-left:20px; columns:2; column-gap:32px}
+@media(max-width:640px){.toc ol{columns:1}}
+.toc li{margin:4px 0; break-inside:avoid}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">Xavier Singletary <span>·</span> Suggestions</div>
+    <div class="top-spacer"></div>
+    <button class="btn" id="themeBtn" aria-pressed="false" aria-label="Toggle dark mode">Dark mode</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <span class="eyebrow">What to do next, in order</span>
+  <h1>Suggestions for xsingletary.com</h1>
+  <p class="lede">The research said where you stand. This says what to change, in what order, and how to know it worked.</p>
+  <div class="meta">
+    <div><b>For</b> Xavier Singletary</div>
+    <div><b>Date</b> 2026-10-13</div>
+    <div><b>Goal</b> Organic search leads</div>
+    <div><b>Companion</b> Positioning Research report</div>
+  </div>
+
+  <div class="callout">
+    <span class="k">The 30-second version</span>
+    <p>Your site isn’t aimed at too small an audience — it’s using the same words as fourteen competitors. Two headlines are near-verbatim contested. Meanwhile your receipts are stronger than anyone’s and they’re buried. <strong>Fix the language, surface the proof, add pages split by problem, and don’t rebuild anything.</strong></p>
+  </div>
+
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#recs">The seven recommendations</a></li>
+      <li><a href="#copy">Copy fixes: before → after</a></li>
+      <li><a href="#pages">Page build order</a></li>
+      <li><a href="#migration">FAQ → spoke migration map</a></li>
+      <li><a href="#links">Internal linking rules</a></li>
+      <li><a href="#funnel">Funnel &amp; CTA changes</a></li>
+      <li><a href="#dont">What not to do</a></li>
+      <li><a href="#measure">How to know it’s working</a></li>
+      <li><a href="#weekone">This week’s checklist</a></li>
+    </ol>
+  </div>
+
+  <!-- ============ 1 ============ -->
+  <section class="sec" id="recs">
+    <h2>1 · The seven recommendations</h2>
+    <p class="h2note">Ranked by impact-to-effort. The first two cost nothing but an afternoon.</p>
+
+    <div class="card">
+      <div class="rec"><span class="rank">1</span><div class="rec-body">
+        <h4 style="margin-top:0">Change the two commodity headlines</h4>
+        <p><span class="pill do">do this</span><span class="pill hi">low effort</span><span class="pill hi">high impact</span></p>
+        <p><strong>Why:</strong> “Not another tool” is GTME’s homepage almost word for word, and “the connections between them are” is the category cliché — Vas, Trevor, Golden Ratio and gtm-engineering.io all pitch a version of it. These are your <em>strongest</em> lines and they currently make you look like the field.</p>
+        <p><strong>How:</strong> Keep “Not Another Tool” as a brand token if you love it — but move the <em>page’s</em> leading claim to something only you can say. Directions in <a href="#copy">section 2</a>.</p>
+        <p><strong>Effort:</strong> One afternoon. No new pages, no structural change.</p>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="rec"><span class="rank">2</span><div class="rec-body">
+        <h4 style="margin-top:0">Put your receipts above the fold</h4>
+        <p><span class="pill do">do this</span><span class="pill hi">low effort</span><span class="pill hi">high impact</span></p>
+        <p><strong>Why:</strong> In the entire competitive set, you are the only one with described architectures and specific verifiable numbers. Vas and Founding GTM publish <em>no</em> proof. Trevor Fox has one testimonial. GTME’s testimonials are unnamed and read as invented. Yours is the moat — and right now it takes scrolling to reach.</p>
+        <p><strong>How:</strong> Add a compact proof band immediately under the hero with three numbers: <strong>90.8%</strong> of buyer pains went unprobed · <strong>11,000</strong> accounts enriched at 93.9% verified · <strong>9</strong> production systems shipped. Then keep the detail further down.</p>
+        <p><strong>Effort:</strong> Hours. It’s copy and one component.</p>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="rec"><span class="rank">3</span><div class="rec-body">
+        <h4 style="margin-top:0">Split the FAQ into spokes — starting with three</h4>
+        <p><span class="pill do">do this</span><span class="pill hi">medium effort</span><span class="pill hi">highest impact</span></p>
+        <p><strong>Why:</strong> You’ve written roughly fifteen genuinely rankable assets and put them all on one URL. That page can rank for one primary query, and its authority is split fifteen ways. Every one of those questions is a keyword cluster that deserves its own page.</p>
+        <p><strong>How:</strong> Publish <code>/gtm-engineer-vs-revops</code>, <code>/what-is-gtm-engineering</code> and <code>/call-intelligence</code> first. Turn the FAQ into a lean hub that links out. Migration map in <a href="#migration">section 4</a>.</p>
+        <p><strong>Effort:</strong> Real work — 2–3 days per page done properly. Start with the first.</p>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="rec"><span class="rank">4</span><div class="rec-body">
+        <h4 style="margin-top:0">Build the two money pages</h4>
+        <p><span class="pill do">do this</span><span class="pill hi">medium effort</span><span class="pill hi">high impact</span></p>
+        <p><strong>Why:</strong> You currently have <strong>zero</strong> commercial-intent pages. You capture attention on informational queries and then drop it. <code>/gtm-engineer-vs-revops</code> and <code>/gtm-engineering-cost</code> have weak SERPs (small consultancies, recruiters, no dominant player) and sit closest to a buying decision.</p>
+        <p><strong>How:</strong> Build them with the receipt-first pattern, and make sure the RevOps page takes a position rather than summarising. Existing ranking pages conclude “hire RevOps first, always” — you can beat that with an evidence-backed contrarian line.</p>
+        <p><strong>Effort:</strong> 2–3 days each.</p>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="rec"><span class="rank">5</span><div class="rec-body">
+        <h4 style="margin-top:0">Add a soft front door next to the diagnostic</h4>
+        <p><span class="pill do">consider</span><span class="pill hi">medium effort</span><span class="pill hi">medium impact</span></p>
+        <p><strong>Why:</strong> Your funnel opens with a paid diagnostic — but Emilio Consulting opens with a <em>free</em> outside-in GTM audit, then a €1,900 blueprint, then the build. Lead Line Partners does something similar: give a company name and work email, receive a researched document, no call required. Both make the first yes trivial. Yours makes it a purchase.</p>
+        <p><strong>How:</strong> Add a free, outside-in read (public signals only — site, search footprint, funnel as a buyer sees it) that ends with “you keep the findings either way.” Keep the paid diagnostic as the next step. You already have the machinery to produce these at volume.</p>
+        <p><strong>Effort:</strong> A page plus a repeatable output. The automation is the interesting part.</p>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="rec"><span class="rank">6</span><div class="rec-body">
+        <h4 style="margin-top:0">Add a vertical page — nobody else has one</h4>
+        <p><span class="pill do">do later</span><span class="pill hi">medium effort</span><span class="pill hi">high impact</span></p>
+        <p><strong>Why:</strong> All fourteen competitors say “B2B SaaS” and nothing more. You have real proof in logistics/3PL, manufacturing and food &amp; beverage — plus an ICP finding that <strong>~50% of wins came from logistics/3PL</strong> when the team assumed manufacturing was bigger. That page has zero competition and cannot be copied by anyone without the data.</p>
+        <p><strong>How:</strong> Vertical-specific proof only: the account model, the buying committee, the signals that matter in that industry. Build it once Tier 1–2 pages are indexing.</p>
+        <p><strong>Effort:</strong> One page, high leverage.</p>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="rec"><span class="rank">7</span><div class="rec-body">
+        <h4 style="margin-top:0">Wire the internal links and keep one CTA</h4>
+        <p><span class="pill do">do this</span><span class="pill hi">low effort</span><span class="pill hi">high impact</span></p>
+        <p><strong>Why:</strong> Hub-and-spoke only works if the links exist. Orphan pages don’t rank, and the side-links between spokes are the actual “spokes” — not decoration.</p>
+        <p><strong>How:</strong> Rules in <a href="#links">section 5</a>. One primary CTA everywhere: the diagnostic. Many entry points, one destination.</p>
+        <p><strong>Effort:</strong> An hour per page, and it multiplies everything else.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section class="sec" id="copy">
+    <h2>2 · Copy fixes: before → after</h2>
+    <p class="h2note">These are <em>directions</em>, not finished copy — the language you land on should sound like you. But this shows the shape of the fix.</p>
+
+    <h3>The homepage hero</h3>
+    <div class="before"><b>Currently</b>“GTM Engineering, Not Another Tool” — “The tools aren’t the problem. The connections between them are.”</div>
+    <p><strong>The problem:</strong> GTME’s homepage reads <em>“Not another SaaS tool. Not another headcount. Not another agency.”</em> And “connections between the tools” is what four other competitors say. Neither line is wrong; both are now generic.</p>
+    <div class="after"><b>Direction A — ownership</b>“GTM systems that run whether or not I’m here.”<br>Sub: “Built on the stack you already pay for. Yours to keep, documented, running unattended.”</div>
+    <div class="after"><b>Direction B — the morning moment</b>“Your reps wake up to their day’s work, already researched.”<br>Sub: “Nine production systems built at Gather AI. The same build, for your team.”</div>
+    <div class="after"><b>Direction C — keep the brand, change the claim</b>Keep the “Not Another Tool” mark, but make the headline the outcome: “Extract what’s already in your tools. Ship it to the people who need it. Every morning, unattended.”</div>
+    <p><strong>Note:</strong> Direction C is the safest — it keeps any equity you’ve built in the phrase while moving the <em>claim</em> somewhere new. All three share the fix: lead with <em>outcome + ownership + unattended</em>, not with <em>connection</em>.</p>
+
+    <h3>The proof band (new — goes above the fold)</h3>
+    <div class="after"><b>Suggested</b>
+      <strong>90.8%</strong> of buyer pains went unprobed across 318 analyzed calls ·
+      <strong>11,000</strong> accounts enriched, 93.9% verified ·
+      <strong>9</strong> production systems shipped and running</div>
+    <p>Three numbers, each specific and each explained further down. Nobody in the set can put a band like this on their homepage.</p>
+
+    <h3>“I connect your tools” → the architecture</h3>
+    <div class="before"><b>Category default</b>“I connect your tools / connect the systems that don’t talk.”</div>
+    <div class="after"><b>Suggested</b>“I extract what’s already sitting in your tools, connect it across the systems that don’t talk, and ship it somewhere your team actually uses it — a two-axis Fit + Signal engine that assigns each account a verdict: STRIKE, NURTURE, QUALIFY, or KILL.”</div>
+    <p>The second version is unfakeable. The first is what everyone says. Describing the mechanism is what separates you from the field.</p>
+
+    <h3>Ownership lines — say it once, briefly</h3>
+    <p>Emilio, The GTM Lab, Golden Ratio, Growth Engineer and gtm-engineering.io all already promise clean handover. It’s table stakes, not differentiation. Keep your version short and move on — don’t build a section around it.</p>
+
+    <h3>“AI-native” — stop saying it</h3>
+    <p>Yalc, Growth Engineer, Golden Ratio and Emilio all lead with agents. In 2026 “we use AI” is like “we use email.” <strong>Show</strong> the AI in the architecture; don’t claim it as a feature.</p>
+  </section>
+
+  <!-- ============ 3 ============ -->
+  <section class="sec" id="pages">
+    <h2>3 · Page build order</h2>
+    <p class="h2note">Ship three. Measure. Then expand. Additive only — do not rewrite the site again.</p>
+
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Order</th><th>Page</th><th>Why this position</th><th>Who ranks today</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td><code>/gtm-engineer-vs-revops</code></td><td>Weakest SERP, closest to money. No dominant player.</td><td>Small consultancies + recruiters</td></tr>
+        <tr><td><strong>2</strong></td><td><code>/what-is-gtm-engineering</code></td><td>The pillar everything links up to.</td><td>Clay + small niche blogs</td></tr>
+        <tr><td><strong>3</strong></td><td><code>/call-intelligence</code></td><td>Your strongest single proof, narrow win.</td><td>Vendor product pages</td></tr>
+        <tr><td><strong>4</strong></td><td><code>/gtm-engineering-cost</code></td><td>Buyer-intent, beatable — second money page.</td><td>Recruiters + agencies</td></tr>
+        <tr><td><strong>5</strong></td><td><code>/account-scoring</code></td><td>Highest volume spoke, soft competition.</td><td>Thin AI-vendor blogs</td></tr>
+        <tr><td><strong>6</strong></td><td><code>/intent-data-replacement</code></td><td>Winnable and the buyers are angry about a bill.</td><td>Small vendor blogs</td></tr>
+        <tr><td><strong>7</strong></td><td><code>/gtm-engineering-for-logistics</code></td><td>Zero competition. Your data is the moat.</td><td>Nobody</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="callout info">
+      <span class="k">What every spoke must contain</span>
+      <p>A problem statement in the reader’s words · the architecture (mechanism, not adjectives) · one specific number with its context · a named friction you hit (Gong’s POST-only endpoint, Apollo’s deprecated routes — this is proof of hands-on work) · the same single CTA · links up and across.</p>
+    </div>
+  </section>
+
+  <!-- ============ 4 ============ -->
+  <section class="sec" id="migration">
+    <h2>4 · FAQ → spoke migration map</h2>
+    <p class="h2note">You already wrote all of this. It’s just on one URL. Promote it, don’t rewrite it.</p>
+
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Existing FAQ question</th><th>Becomes</th></tr></thead>
+      <tbody>
+        <tr><td>How to score accounts for outbound prioritization</td><td><code>/account-scoring</code></td></tr>
+        <tr><td>How to build a lead scoring model from closed-won data</td><td><code>/account-scoring</code> (second section, or its own page later)</td></tr>
+        <tr><td>How to replace intent data with internal signals</td><td><code>/intent-data-replacement</code></td></tr>
+        <tr><td>How to analyze sales calls at scale</td><td><code>/call-intelligence</code></td></tr>
+        <tr><td>How to build an ICP from real CRM data</td><td><code>/account-scoring</code> (the ICP autopsy lives here)</td></tr>
+        <tr><td>What is a GTM engineer / what do they actually do</td><td><code>/what-is-gtm-engineering</code></td></tr>
+        <tr><td>Is GTM engineering just Clay and cold email</td><td><code>/what-is-gtm-engineering</code> (this is the anti-definition — strong)</td></tr>
+        <tr><td>What separates a good GTM engineer from a tool configurator</td><td><code>/what-is-gtm-engineering</code> (excellent proof section)</td></tr>
+        <tr><td>RevOps comparison content</td><td><code>/gtm-engineer-vs-revops</code></td></tr>
+        <tr><td>How to measure GTM engineering ROI</td><td><code>/gtm-engineering-cost</code></td></tr>
+        <tr><td>How to automate account research for SDRs</td><td><span class="pill dont">keep as FAQ</span> — the query is vendor-dominated, wrong intent</td></tr>
+        <tr><td>How to find the buying committee</td><td><span class="pill dont">keep as FAQ</span> for now — moderate volume</td></tr>
+        <tr><td>How to enrich contacts programmatically</td><td><span class="pill dont">keep as FAQ</span> — technical, low commercial intent</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p><strong>Keep the FAQ page itself.</strong> It earns featured snippets and it’s a useful hub. It just shouldn’t be the only asset.</p>
+  </section>
+
+  <!-- ============ 5 ============ -->
+  <section class="sec" id="links">
+    <h2>5 · Internal linking rules</h2>
+    <p class="h2note">This is the mechanism, not decoration. Orphan pages don’t rank.</p>
+    <ol>
+      <li><strong>Every spoke links up to the pillar</strong> (<code>/what-is-gtm-engineering</code>).</li>
+      <li><strong>Every spoke links sideways to 2–3 siblings.</strong> Related problem, natural next question.</li>
+      <li><strong>Informational spokes link down to a money page.</strong> Scoring → vs-RevOps. Call intelligence → cost. This is how attention becomes a lead.</li>
+      <li><strong>Use descriptive anchor text.</strong> “how to replace intent data with in-house signals” — never “click here” or “learn more.”</li>
+      <li><strong>The pillar links to every spoke.</strong> One hub, many doors.</li>
+      <li><strong>One CTA, everywhere.</strong> The diagnostic. No competing asks.</li>
+    </ol>
+
+    <div class="callout">
+      <span class="k">The link graph in one line</span>
+      <p>Pillar ↔ every spoke · spoke ↔ 2–3 siblings · informational spoke → money page → diagnostic.</p>
+    </div>
+  </section>
+
+  <!-- ============ 6 ============ -->
+  <section class="sec" id="funnel">
+    <h2>6 · Funnel &amp; CTA changes</h2>
+
+    <div class="card">
+      <h4 style="margin-top:0">Keep the diagnostic as the spine</h4>
+      <p>It’s a sharp, honest offer — paid, and it tells them what to build regardless of whether they build it with you. That’s good. Don’t dilute it by adding three other CTAs.</p>
+    </div>
+
+    <div class="card">
+      <h4 style="margin-top:0">Add one softer entry point</h4>
+      <p>A free outside-in read. It converts colder traffic that isn’t ready to buy a diagnostic, and it gives you a reason to have a conversation. Everyone with a working funnel in your competitive set has a version of this — you don’t.</p>
+    </div>
+
+    <div class="card">
+      <h4 style="margin-top:0">Answer the price objection on the page</h4>
+      <p>You’re 5–10× the field’s monthly rate. That’s correct for a build you own vs. a service you rent — but it must be <em>said</em>. Growth Engineer ($2–4K/mo, pause anytime) has trained buyers to expect cheap and commitment-free. A dedicated comparison that reframes cost as <em>outcome per dollar and what you keep</em> is the highest-leverage page you’re missing.</p>
+    </div>
+  </section>
+
+  <!-- ============ 7 ============ -->
+  <section class="sec" id="dont">
+    <h2>7 · What not to do</h2>
+    <p class="h2note">Each of these is a tempting move that would cost you the one advantage you have.</p>
+
+    <div class="card">
+      <h4 style="margin-top:0"><span class="pill dont">skip</span> Pages for “AI engineer” and “cold outbound email”</h4>
+      <p>These are synonyms and mechanisms, not audiences. Three synonym pages compete with each other and Google picks one. Worse, presenting as an “AI engineer” or a “cold email guy” plants you in the generic-agency crowd your whole <em>Not Another Tool</em> positioning exists to escape.</p>
+      <p><strong>Instead:</strong> let “AI” live in the architecture and let “cold outbound” be one output channel inside the call-intelligence or outbound story — always with the anti-positioning (“we don’t just send cold email”) that converts serious buyers and repels tire-kickers.</p>
+    </div>
+
+    <div class="card">
+      <h4 style="margin-top:0"><span class="pill dont">skip</span> Chasing “hire a GTM engineer”</h4>
+      <p>That SERP belongs to competitor homepages and Toptal. You cannot win it with a content page. Use it as competitive intel instead.</p>
+    </div>
+
+    <div class="card">
+      <h4 style="margin-top:0"><span class="pill dont">skip</span> “Intent data alternative / pricing” shopping queries</h4>
+      <p>Pure purchase intent against real vendors with real budgets (LeadFuze, IntentHub). You’d be bidding against people whose entire business is that keyword.</p>
+    </div>
+
+    <div class="card">
+      <h4 style="margin-top:0"><span class="pill dont">skip</span> A full site rewrite</h4>
+      <p>You just revamped and the pages are dated 2026-10-08. Another rebuild is SEO churn — you’d discard whatever is currently indexing. <strong>Add pages; change copy; don’t restructure.</strong></p>
+    </div>
+
+    <div class="card">
+      <h4 style="margin-top:0"><span class="pill dont">skip</span> One page per synonym</h4>
+      <p>“GTM engineer” / “GTM engineering” / “AI GTM engineer” as three pages is cannibalization, not coverage. One page, or fold the variants into existing pages.</p>
+    </div>
+  </section>
+
+  <!-- ============ 8 ============ -->
+  <section class="sec" id="measure">
+    <h2>8 · How to know it’s working</h2>
+    <p class="h2note">Honest expectations. SEO is slow; these are the leading indicators to watch before revenue moves.</p>
+
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>When</th><th>What to check</th><th>What good looks like</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Week 1–2</strong></td><td>Pages indexed in Search Console</td><td>All new URLs indexed, no coverage errors</td></tr>
+        <tr><td><strong>Week 3–6</strong></td><td>Impressions per page</td><td>Each spoke pulling impressions for its target query — <em>impressions</em>, not clicks yet</td></tr>
+        <tr><td><strong>Week 6–12</strong></td><td>Position + click-through</td><td>Money pages ranking page 1–2; informational pages feeding traffic to them</td></tr>
+        <tr><td><strong>Ongoing</strong></td><td>Diagnostic form starts &amp; referral source</td><td>At least one lead citing organic search</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="callout warn">
+      <span class="k">The realistic read</span>
+      <p>Expect <strong>no meaningful organic leads for 60–90 days.</strong> That’s normal and not a signal to rebuild. The early signal to act on is <em>impressions</em> — if a page gets impressions but no clicks, your title is wrong, not your content. If a page gets nothing at all after 8 weeks, the intent mapping was off.</p>
+    </div>
+  </section>
+
+  <!-- ============ 9 ============ -->
+  <section class="sec" id="weekone">
+    <h2>9 · This week’s checklist</h2>
+    <p class="h2note">Everything here is doable in a few sittings and needs no new pages.</p>
+    <ul class="checklist">
+      <li>Add the three-number proof band above the fold on the homepage.</li>
+      <li>Pick a new hero direction (A, B or C from section 2) and ship it — keep the “Not Another Tool” mark if you want it.</li>
+      <li>Replace “the connections between them are” with an architecture-forward line.</li>
+      <li>Pull the “Is GTM engineering just Clay and cold email” answer out of the FAQ — it’s your strongest anti-positioning and it should be a section on the pillar page.</li>
+      <li>Add descriptive internal links from the FAQ to <code>/blog/why-reps-guess-who-to-call</code>.</li>
+      <li>Decide the price-objection page: <code>/gtm-engineering-cost</code> exists or not?</li>
+      <li>Decide whether to build the soft front door (free outside-in read).</li>
+      <li>Confirm <code>xsingletary.com</code> is the only horse — CodeJumps still live or retired?</li>
+    </ul>
+
+    <div class="callout">
+      <span class="k">If you only do one thing</span>
+      <p>Put the receipts above the fold and change the hero claim. It’s an afternoon, it needs no new pages, and it fixes the one thing that’s actually costing you — being indistinguishable from fourteen competitors who all have weaker proof.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Suggestions — xsingletary.com</strong> · Prepared 2026-10-13 · Goal: organic search leads</p>
+    <p>Companion to the <em>Positioning Research</em> report. Copy shown here is directional — language should be drafted properly in your voice before it ships.</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var btn = document.getElementById('themeBtn');
+  var saved = null;
+  try { saved = localStorage.getItem('report-theme'); } catch(e) {}
+  if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) saved = 'dark';
+  if (saved) { root.setAttribute('data-theme', saved); }
+  function sync(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    btn.textContent = dark ? 'Light mode' : 'Dark mode';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+  }
+  sync();
+  btn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('report-theme', next); } catch(e) {}
+    sync();
+  });
+})();
+</script>
+</body>
+</html>

@@ -11,6 +11,7 @@ Reports are self-contained single-file HTML — no build step, no external depen
 | Report | Date | What it covers |
 |---|---|---|
 | [Positioning Research — xsingletary.com](reports/xsingletary-positioning-research/) | 2026-10-13 | Competitive teardown of the fractional GTM-engineering market, search priority order, competitor-positioning map, and per-page positioning briefs. |
+| [Suggestions — xsingletary.com](reports/xsingletary-positioning-suggestions/) | 2026-10-13 | What to change and in what order: seven ranked recommendations, copy fixes, page build order, FAQ-to-spoke migration map, and a this-week checklist. |
 
 ## Layout
 
