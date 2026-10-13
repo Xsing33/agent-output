@@ -1,0 +1,13 @@
+{
+  "name": "agent-output",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Research and analysis deliverables, served as a static site.",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

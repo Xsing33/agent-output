@@ -1,0 +1,15 @@
+# Railway deploy config for the agent-output service.
+# NOTE: a root railway.toml applies to EVERY service deployed from this repo.
+# There is only one service here, so that is fine. If a second service is ever
+# added from this repo, move its config to railway.<role>.toml and set
+# "Config file path" on that service's dashboard card.
+
+[build]
+builder = "RAILPACK"
+
+[deploy]
+startCommand = "node server.mjs"
+healthcheckPath = "/healthz"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
